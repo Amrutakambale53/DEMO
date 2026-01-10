@@ -1,13 +1,23 @@
-name: Simple CI
+name: CD Deploy to VPS
 
-on: [push]
-
+on:
+  push:
+   branches:
+     - main
 jobs:
- build:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Get Code 
-      uses: actions/checkout@v3
-
-    - name: Run Test 
-      run: echo "Code checked successfully"
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_KEY }}
+          script: |
+            rm -rf /var/www/html/*
+            cp -r * /var/www/html/
