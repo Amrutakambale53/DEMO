@@ -5,17 +5,20 @@ on:
     branches:
       - main
 
-jobs:                                  
+jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy via SSH
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 82.112.238.89
           username: root
-          key: SHHVPSKEYY
+          key: ${{ secrets.VPS_KEY }}
           script: |
-            cd /var/www/html
-            git pull origin main
+            rm -rf /var/www/html/*
+            cp -r * /var/www/html/
