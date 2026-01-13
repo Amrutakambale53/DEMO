@@ -18,7 +18,7 @@ jobs:
         with:
           host: 82.112.238.89
           username: root
-          key: ${{ secrets.VPS_KEY }}
+          key: SHHVPSKEYY
           script: |
             rm -rf /var/www/html/*
             cp -r * /var/www/html/
